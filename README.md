@@ -29,8 +29,8 @@ try {
     var_dump($status);
 
     // Reboot device
-    $reboot = $zte->administration()->systemManagement()->reboot();
-    var_dump($reboot);
+    // $reboot = $zte->administration()->systemManagement()->reboot();
+    // var_dump($reboot);
 
 } catch (LoginException $e) {
     echo $e->getMessage() . \PHP_EOL;
