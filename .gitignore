@@ -1,0 +1,8 @@
+.php_cs.cache
+.phpunit.result.cache
+composer.lock
+/vendor
+/storage
+/TEST-STORAGE
+cookie.txt
+test*.*

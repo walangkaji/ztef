@@ -1,0 +1,6 @@
+parameters:
+	ignoreErrors:
+		- '#^Call to an undefined method DiDom\\Element\|DOMElement\:\:attr\(\)\.$#'
+		- '#^Call to an undefined method DiDom\\Element\|DOMElement\:\:find\(\)\.$#'
+		- '#^Call to an undefined method DiDom\\Element\|DOMElement\:\:toDocument\(\)\.$#'
+		- '#^Call to an undefined method DiDom\\Element\|DOMElement\:\:text\(\)\.$#'
