@@ -1,4 +1,4 @@
-# ZTE Z Series API
+# ZTE F Series API
 
 Library ini merupakan **Emboh**. TITIK
 - **ZTE F609** ❌ (OTW)
