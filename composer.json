@@ -12,8 +12,7 @@
     "require": {
         "php": ">=8.0",
         "walangkaji/mancurl": "^1.1",
-        "imangazaliev/didom": "^2.0",
-        "phpseclib/phpseclib": "~3.0"
+        "imangazaliev/didom": "^2.0"
     },
     "require-dev": {
         "phpunit/phpunit": "^9.5",
