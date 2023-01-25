@@ -19,7 +19,7 @@ class Helpers extends Request
     }
 
     /**
-     * Change Ip address for indihome
+     * Change Ip address for indihome without Reboot
      *
      * @param string $connectionName Connection name of indihome pppoe
      *                               we can find this on Network -> WAN,
@@ -27,7 +27,7 @@ class Helpers extends Request
      *
      * @throws \Exception
      */
-    public function changeIp(string $connectionName = 'omci_ipv4_pppoe_1'): void
+    public function changeIp(string $connectionName = 'omci_ipv4_pppoe_1'): bool
     {
         $session = '';
 
@@ -121,5 +121,7 @@ class Helpers extends Request
         $newIp = $getIp->ip; // @phpstan-ignore-line
 
         Debug::info(__FUNCTION__, "Change from '$oldIp' to '$newIp'");
+
+        return $oldIp !== $newIp;
     }
 }
