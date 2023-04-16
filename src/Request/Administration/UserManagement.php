@@ -2,9 +2,7 @@
 
 namespace ZteF\Request\Administration;
 
-use ManCurl\Debug;
 use ZteF\Request;
-use ZteF\Utils;
 
 class UserManagement extends Request
 {

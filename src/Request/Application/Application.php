@@ -100,12 +100,11 @@ class Application extends Request
      */
     public function bpdu(bool $enable): bool
     {
-        $session = Utils::getSession($this->request(self::APP_BPDU)->getRawResponse());
         $request = $this->request(self::APP_BPDU)
             ->addPosts([
                 'BPDUEnable'     => (int) $enable,
                 'IF_ACTION'      => 'apply',
-                '_SESSION_TOKEN' => $session,
+                '_SESSION_TOKEN' => $this->getSession(),
             ])
             ->getRawResponse();
 
@@ -200,12 +199,11 @@ class Application extends Request
      */
     public function usbPrintServer(bool $enable): bool
     {
-        $session = Utils::getSession($this->request(self::APP_USB_PRINT_SERVER)->getRawResponse());
         $request = $this->request(self::APP_USB_PRINT_SERVER)
             ->addPosts([
                 'UsbPrinterEnable' => (int) $enable,
                 'IF_ACTION'        => 'apply',
-                '_SESSION_TOKEN'   => $session,
+                '_SESSION_TOKEN'   => $this->getSession(),
             ])
             ->getRawResponse();
 

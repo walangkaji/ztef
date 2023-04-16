@@ -12,7 +12,8 @@
     "require": {
         "php": ">=8.0",
         "walangkaji/mancurl": "^1.1",
-        "imangazaliev/didom": "^2.0"
+        "imangazaliev/didom": "^2.0",
+        "illuminate/collections": "*"
     },
     "require-dev": {
         "phpunit/phpunit": "^9.5",
@@ -23,7 +24,10 @@
     "autoload": {
         "psr-4": {
             "ZteF\\": "src/"
-        }
+        },
+        "files": [
+            "src/Helpers/function.php"
+        ]
     },
     "autoload-dev": {
         "psr-4": {

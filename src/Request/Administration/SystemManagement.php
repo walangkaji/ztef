@@ -13,12 +13,11 @@ class SystemManagement extends Request
      */
     public function reboot(): bool
     {
-        $session = Utils::getSession($this->request(self::ADM_REBOOT)->getRawResponse());
         $request = $this->request(self::ADM_REBOOT)
             ->addPosts([
                 'flag'           => 1,
                 'IF_ACTION'      => 'devrestart',
-                '_SESSION_TOKEN' => $session,
+                '_SESSION_TOKEN' => $this->getSession(),
             ])
             ->getRawResponse();
 

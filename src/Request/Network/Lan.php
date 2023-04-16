@@ -13,12 +13,11 @@ class Lan extends Request
      */
     public function lanIsolation(bool $enable): bool
     {
-        $session = Utils::getSession($this->request(self::NET_LAN_ISOLATE)->getRawResponse());
         $request = $this->request(self::NET_LAN_ISOLATE)
             ->addPosts([
                 'IsolateEnable'  => (int) $enable,
                 'IF_ACTION'      => 'apply',
-                '_SESSION_TOKEN' => $session,
+                '_SESSION_TOKEN' => $this->getSession(),
             ])
             ->getRawResponse();
 

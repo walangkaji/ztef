@@ -76,13 +76,12 @@ class Wan extends Request
      */
     public function dhcpReleaseFirst(bool $enable): bool
     {
-        $session = Utils::getSession($this->request(self::NET_DHCP_RELEASE)->getRawResponse());
         $request = $this->request(self::NET_DHCP_RELEASE)
             ->addPosts([
                 'bSendRelease'   => (int) $enable,
                 'ZTE'            => 'NULL',
                 'IF_ACTION'      => 'apply',
-                '_SESSION_TOKEN' => $session,
+                '_SESSION_TOKEN' => $this->getSession(),
             ])
             ->getRawResponse();
 

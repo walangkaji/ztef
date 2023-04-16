@@ -2,6 +2,8 @@
 
 namespace ZteF;
 
+use Illuminate\Support\Collection;
+
 class Utils
 {
     public static function find(string $content, string $start, string $end): string
@@ -57,13 +59,32 @@ class Utils
         return self::uniDecode($output[1][1]);
     }
 
+    /**
+     * Generate random integer
+     */
     public static function randomNumber(int $length): int
     {
-        $code = '';
-        for ($i = 0; $i < $length; ++$i) {
-            $code .= mt_rand(0, 9);
+        return random_int((int) pow(10, $length - 1), (int) pow(10, $length) - 1);
+    }
+
+    /**
+     * Collect all data from transfer meaning method in html
+     *
+     * @param string $contents html document
+     */
+    public static function collectTransferMeaning(string $contents): Collection
+    {
+        preg_match_all('/Transfer_meaning\(\'(.*)\'\);/', $contents, $output);
+
+        if (!isset($output[1])) {
+            return collect([]);
         }
 
-        return (int) $code;
+        return collect($output[1])->mapWithKeys(function ($value) {
+            /** @phpstan-ignore-next-line */
+            list($k, $v) = explode("','", $value);
+
+            return [$k => is_numeric($v) ? (int) $v : self::uniDecode($v)];
+        });
     }
 }

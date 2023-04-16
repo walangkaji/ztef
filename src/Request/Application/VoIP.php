@@ -35,12 +35,11 @@ class VoIP extends Request
      */
     public function fax(bool $enable): bool
     {
-        $session = Utils::getSession($this->request(self::APP_FAX)->getRawResponse());
         $request = $this->request(self::APP_FAX)
             ->addPosts([
                 'Enable'         => (int) $enable,
                 'IF_ACTION'      => 'apply',
-                '_SESSION_TOKEN' => $session,
+                '_SESSION_TOKEN' => $this->getSession(),
             ])
             ->getRawResponse();
 

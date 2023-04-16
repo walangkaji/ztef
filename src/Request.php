@@ -14,7 +14,7 @@ class Request
     public const WAN_CONNECTION       = self::PARAM . 'IPv46_status_wan2_if_t.gch';
     public const PON_INFORMATION      = self::PARAM . 'pon_status_link_info_t.gch';
     public const MOBILE_NETWORK       = self::PARAM . 'status_mobnet_info_t.gch';
-    public const STAT_WLAN_RADIO_2_4G = self::PARAM . 'status_wlanm_info1_t.gch';
+    public const STAT_WLAN_RADIO      = self::PARAM . 'status_wlanm_info1_t.gch';
     public const STAT_WLAN_RADIO_5G   = self::PARAM . 'status_wlanm_info2_t.gch';
     public const ETHERNET             = self::PARAM . 'pon_status_lan_info_t.gch';
     public const USB                  = self::PARAM . 'status_usb_info_t.gch';
@@ -36,6 +36,9 @@ class Request
     public const APP_USB_PRINT_SERVER = self::PARAM . 'print_server_t.gch';
     public const SEC_ALG              = self::PARAM . 'sec_fw_alg_t.gch';
 
+    // WLAN
+    public const WLAN_ASSOCIATED_DEVICE = self::PARAM . 'net_wlanm_assoc1_t.gch';
+
     public const IP_CHECK = 'https://api.ipify.org/?format=json';
 
     public function __construct(protected ZteF $zte)
@@ -53,8 +56,16 @@ class Request
     /**
      * Make new request
      */
-    protected function makeRequest(string $url): ManCurlRequest
+    protected function makeNewRequest(string $url): ManCurlRequest
     {
         return new ManCurlRequest(new Client, $url);
+    }
+
+    /**
+     * Get session string from latest request
+     */
+    public function getSession(): string
+    {
+        return $this->zte->getSession();
     }
 }

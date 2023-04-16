@@ -76,7 +76,6 @@ class Security extends Request
         bool $snmp = true,
         bool $ipsec = true,
     ): bool {
-        $session = Utils::getSession($this->request(self::SEC_ALG)->getRawResponse());
         $request = $this->request(self::SEC_ALG)
             ->addPosts([
                 'IsSIPAlg'       => (int) $sip,
@@ -89,7 +88,7 @@ class Security extends Request
                 'IsSNMPAlg'      => (int) $snmp,
                 'IsIPSECAlg'     => (int) $ipsec,
                 'IF_ACTION'      => 'apply',
-                '_SESSION_TOKEN' => $session,
+                '_SESSION_TOKEN' => $this->getSession(),
             ])
             ->getRawResponse();
 

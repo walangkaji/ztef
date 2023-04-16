@@ -29,10 +29,8 @@ class Helpers extends Request
      */
     public function changeIp(string $connectionName = 'omci_ipv4_pppoe_1'): bool
     {
-        $session = '';
-
         // Get identity of connection name
-        $getIdentity = function (string $connectionName) use (&$session): string {
+        $getIdentity = function (string $connectionName): string {
             $html = $this->request(self::NET_WAN)->getRawResponse();
             preg_match_all('/Transfer_meaning\(\'(.*)\'\);/', $html, $output);
             $data     = [];
@@ -47,28 +45,22 @@ class Helpers extends Request
                 $data[$split[0]] = $val;
             }
 
-            $session = Utils::getSession($html);
-
             return '' === $keyPppoe ? '' : $data[$keyPppoe];
         };
 
         // Get reposition data from page of connection name
-        $getReposition = function (string $identity) use (&$session): string {
-            $html = $this->request(self::NET_WAN)
+        $getReposition = function (string $identity): string {
+            return $this->request(self::NET_WAN)
                          ->addPosts([
                              'IF_ACTION'      => 'Reposition',
                              'IF_IDENTITY'    => $identity,
-                             '_SESSION_TOKEN' => $session,
+                             '_SESSION_TOKEN' => $this->getSession(),
                          ])
                          ->getRawResponse();
-
-            $session = Utils::getSession($html);
-
-            return $html;
         };
 
         // Submit modify button, params $authType : auto, PAP or CHAP
-        $edit = function (string $reposition, string $authType = 'auto') use (&$session): string {
+        $edit = function (string $reposition, string $authType = 'auto'): string {
             $html = new Document($reposition);
             /** @phpstan-ignore-next-line */
             $html = $html->find('#fSubmit')[0]->__toString();
@@ -92,16 +84,12 @@ class Helpers extends Request
                 }
             }
 
-            $postData['_SESSION_TOKEN'] = $session;
+            $postData['_SESSION_TOKEN'] = $this->getSession();
             $postData['IF_ENCODE']      = 'wlkj';
 
-            $html = $this->request(self::NET_WAN)
+            return $this->request(self::NET_WAN)
                         ->addPosts($postData)
                         ->getRawResponse();
-
-            $session = Utils::getSession($html);
-
-            return $html;
         };
 
         $identity = $getIdentity($connectionName);
@@ -112,12 +100,12 @@ class Helpers extends Request
 
         $reposition = $getReposition($identity);
 
-        $getIp = $this->makeRequest(self::IP_CHECK)->getResponse();
+        $getIp = $this->makeNewRequest(self::IP_CHECK)->getResponse();
         $oldIp = $getIp->ip; // @phpstan-ignore-line
 
         $edit($reposition, 'PAP');
         $edit($reposition, 'auto');
-        $getIp = $this->makeRequest(self::IP_CHECK)->getResponse();
+        $getIp = $this->makeNewRequest(self::IP_CHECK)->getResponse();
         $newIp = $getIp->ip; // @phpstan-ignore-line
 
         Debug::info(__FUNCTION__, "Change from '$oldIp' to '$newIp'");

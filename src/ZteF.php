@@ -2,9 +2,11 @@
 
 namespace ZteF;
 
+use GuzzleHttp\Middleware;
 use ManCurl\Client;
 use ManCurl\Debug;
 use ManCurl\Request as ManCurlRequest;
+use Psr\Http\Message\ResponseInterface;
 use ZteF\Exception\LoginException;
 use ZteF\Request\Administration\Administration;
 use ZteF\Request\Application\Application;
@@ -18,6 +20,7 @@ class ZteF
     private Client $client;
     private static string $ip;
     public int $loginRandom = 12345678;
+    public string $session  = '';
 
     public function __construct(
         string $ip,
@@ -65,7 +68,6 @@ class ZteF
             'Frm_Loginchecktoken' => Utils::getLoginCheckToken($html),
         ])->makeRequest();
 
-        /** @phpstan-ignore-next-line */
         if ($this->loginCheck()) {
             Debug::success(__FUNCTION__, "Success login with user '{$this->username}'");
 
@@ -144,10 +146,36 @@ class ZteF
      */
     public function request(string $path = '/'): ManCurlRequest
     {
-        return new ManCurlRequest(
+        return (new ManCurlRequest(
             $this->client,
             sprintf('http://%s%s', self::$ip, $path)
-        );
+        ))->middleware(Middleware::mapResponse(function (ResponseInterface $response) {
+            $this->setSession(
+                Utils::getSession($response->getBody()->getContents())
+            );
+
+            return $response;
+        }));
+    }
+
+    /**
+     * Set session
+     *
+     * @param string $session session string from response
+     */
+    private function setSession(string $session): void
+    {
+        if ('' !== $session) {
+            $this->session = $session;
+        }
+    }
+
+    /**
+     * Get session string from latest request
+     */
+    public function getSession(): string
+    {
+        return $this->session;
     }
 
     /**

@@ -39,12 +39,11 @@ class Administration extends Request
             return false;
         }
 
-        $session = Utils::getSession($this->request(self::ADM_LOGIN_TIMEOUT)->getRawResponse());
         $request = $this->request(self::ADM_LOGIN_TIMEOUT)
             ->addPosts([
                 'Timeout'        => $minutes,
                 'IF_ACTION'      => 'apply',
-                '_SESSION_TOKEN' => $session,
+                '_SESSION_TOKEN' => $this->getSession(),
             ])
             ->getRawResponse();
 
@@ -125,13 +124,12 @@ class Administration extends Request
      */
     public function basicConfiguration3g4g(bool $enable = true, int $time = 30): bool
     {
-        $session = Utils::getSession($this->request(self::ADM_BASIC_CONF_3G4G)->getRawResponse());
         $request = $this->request(self::ADM_BASIC_CONF_3G4G)
             ->addPosts([
                 'Enable'         => $enable ? 1 : 0,
                 'AutoTransTime'  => $time,
                 'IF_ACTION'      => 'apply',
-                '_SESSION_TOKEN' => $session,
+                '_SESSION_TOKEN' => $this->getSession(),
             ])
             ->getRawResponse();
 

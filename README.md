@@ -54,10 +54,10 @@ try {
 | -- PON information | `$zte->status()->networkInterface()->ponInformation();` | ✅ |
 | -- Mobile Network | `$zte->status()->networkInterface()->mobileNetwork();` | ✅ |
 | User Inteface | `$zte->status()->userInterface();` |  |
-| -- WLAN Radio2.4G | `$zte->status()->userInterface()->wlan24G();` | ❌ |
-| -- WLAN Radio5G | `$zte->status()->userInterface()->wlan5G();` | ❌ |
-| -- Ethernet | `$zte->status()->userInterface()->ethernet();` | ❌ |
-| -- USB | `$zte->status()->userInterface()->usb();` | ❌ |
+| -- WLAN | `$zte->status()->userInterface()->wlan();` | ✅ |
+| -- WLAN Radio5G | `$zte->status()->userInterface()->wlan5G();` | ✅ |
+| -- Ethernet | `$zte->status()->userInterface()->ethernet();` | ✅ |
+| -- USB | `$zte->status()->userInterface()->usb();` | ✅ |
 | VoIP Status | `$zte->status()->voIpStatus();` | ✅ |
 
 ### Network
@@ -72,12 +72,12 @@ try {
 | -- DHCP Release First | `$zte->network()->wan()->dhcpReleaseFirst();` | ✅ |
 | WLAN Common Setting | `$zte->network()->wlanCommonSetting();` |  |
 | -- WiFi Restrictions | `$zte->network()->wlanCommonSetting()->wifiRestrictions();` | ❌ |
-| WLAN Radio2.4G | `$zte->network()->wlan();` |  |
+| WLAN | `$zte->network()->wlan();` |  |
 | -- Basic | `$zte->network()->wlan()->basic();` | ❌ |
 | -- SSID Settings | `$zte->network()->wlan()->ssidSetting();` | ❌ |
 | -- Security | `$zte->network()->wlan()->security();` | ❌ |
 | -- Access Control List | `$zte->network()->wlan()->accessControlList();` | ❌ |
-| -- Associated Devices | `$zte->network()->wlan()->associatedDevices();` | ❌ |
+| -- Associated Devices | `$zte->network()->wlan()->associatedDevices();` | ✅ |
 | -- WDS | `$zte->network()->wlan()->wds();` | ❌ |
 | -- WMM | `$zte->network()->wlan()->wmm();` | ❌ |
 | -- WPS | `$zte->network()->wlan()->wps();` | ❌ |
