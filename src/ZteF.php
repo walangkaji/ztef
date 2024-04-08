@@ -19,6 +19,7 @@ class ZteF
 {
     private Client $client;
     private static string $ip;
+    private static string $scheme;
     public int $loginRandom = 12345678;
     public string $session  = '';
 
@@ -28,8 +29,10 @@ class ZteF
         private string $password,
         bool $debug = false,
         ?string $proxy = null,
+        string $scheme = "http"
     ) {
         self::$ip = $ip;
+        self::$scheme = $scheme;
 
         Debug::activate($debug);
 
@@ -148,7 +151,7 @@ class ZteF
     {
         return (new ManCurlRequest(
             $this->client,
-            sprintf('http://%s%s', self::$ip, $path)
+            sprintf('%s://%s%s', self::$scheme, self::$ip, $path)
         ))->middleware(Middleware::mapResponse(function (ResponseInterface $response) {
             $this->setSession(
                 Utils::getSession($response->getBody()->getContents())
