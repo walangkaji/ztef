@@ -3,6 +3,7 @@
 Library ini merupakan **Emboh**. TITIK
 - **ZTE F609** ✅ (Tested)
 - **ZTE F670** ✅ (Tested)
+- **ZTE F616** ✅ (Tested with https on)
 
 ## Requirements
 Works with PHP 8.0 or above
